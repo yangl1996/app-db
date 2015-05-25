@@ -20,27 +20,37 @@ class MyServer(BaseHTTPRequestHandler):
         # data structure:{user_id_1: [url_1, url_2, url_3...], user_id_2: [url_1, url_2, url_3...]}
 
         # loading database
-        database_file = open(db_file_path, 'r')
-        database = database_file.read()
-        user_table = json.loads(database)
-        database_file.close()
+        try:
+            database_file = open(db_file_path, 'r')
+            database = database_file.read()
+            user_table = json.loads(database)
+            database_file.close()
+        except:
+            self.send_error(500, "Internal Error", "No database found on server")
+            print("Database not found, server shutting down")
+            return
 
         # database loaded as user_table
         # searching for URLs
         if user_id in user_table:
             URLs = user_table[user_id]
-            # TODO: add XML generation
-
+            return_file = '<resources><string name="url_number">'
+            return_file += len(URLs)
+            return_file += '</string>'
+            id_count = 1
+            for this_url in URLs:
+                return_file += '<string name="'
+                return_file += id_count
+                return_file += '">'
+                return_file += this_url
+                return_file += '</string>'
+            return_file += '</resources>'
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+            self.wfile.write(bytes(return_file, "utf-8"))
         else:
-            # TODO: add error handling
-
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
-        self.wfile.write(bytes("<html><head><title>Title goes here.</title></head>", "utf-8"))
-        self.wfile.write(bytes("<body><p>This is a test.</p>", "utf-8"))
-        self.wfile.write(bytes("<p>You accessed path: %s</p>" % self.path, "utf-8"))
-        self.wfile.write(bytes("</body></html>", "utf-8"))
+            self.send_error(404, "Not Found", "The username you requested does not exist")
 
 
 myServer = HTTPServer((hostName, hostPort), MyServer)
