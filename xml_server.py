@@ -35,14 +35,14 @@ class MyServer(BaseHTTPRequestHandler):
         if user_id in user_table:
             URLs = user_table[user_id]
             return_file = '<resources><string name="url_number">'
-            return_file += len(URLs)
+            return_file += str(len(URLs))
             return_file += '</string>'
             id_count = 1
             for this_url in URLs:
                 return_file += '<string name="'
-                return_file += id_count
+                return_file += str(id_count)
                 return_file += '">'
-                return_file += this_url
+                return_file += str(this_url)
                 return_file += '</string>'
             return_file += '</resources>'
             self.send_response(200)
@@ -50,7 +50,7 @@ class MyServer(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(bytes(return_file, "utf-8"))
         else:
-            self.send_error(404, "Not Found", "The username you requested does not exist")
+            self.send_error(404, "Not Found", "Username requested does not exist")
 
 
 myServer = HTTPServer((hostName, hostPort), MyServer)
