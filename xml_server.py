@@ -44,6 +44,7 @@ class MyServer(BaseHTTPRequestHandler):
                 return_file += '">'
                 return_file += str(this_url)
                 return_file += '</string>'
+                id_count += 1
             return_file += '</resources>'
             self.send_response(200)
             self.send_header("Content-type", "text/xml")
