@@ -1,31 +1,28 @@
 __author__ = 'yangl1996'
-import sqlite3
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import time
 
-PORT_NUMBER = 8080
+hostName = "localhost"
+hostPort = 9000
 
 
-
-class MyHandler(BaseHTTPRequestHandler):
-
-    # Handler for the GET requests
+class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
-        print('Get request received')
         self.send_response(200)
-        self.send_header('Content-type','text/html')
+        self.send_header("Content-type", "text/html")
         self.end_headers()
-        # Send the html message
-        self.wfile.write("Hello World !")
-        return
+        self.wfile.write(bytes("<html><head><title>Title goes here.</title></head>", "utf-8"))
+        self.wfile.write(bytes("<body><p>This is a test.</p>", "utf-8"))
+        self.wfile.write(bytes("<p>You accessed path: %s</p>" % self.path, "utf-8"))
+        self.wfile.write(bytes("</body></html>", "utf-8"))
+
+myServer = HTTPServer((hostName, hostPort), MyServer)
+print(time.asctime(), "Server Starts - %s:%s" % (hostName, hostPort))
 
 try:
-    # Create a web server and define the handler to manage the
-    # incoming request
-    server = HTTPServer(('', PORT_NUMBER), MyHandler)
-    print('Started server on port ', PORT_NUMBER)
+    myServer.serve_forever()
+except KeyboardInterrupt:
+    pass
 
-    # Wait forever for incoming http requests
-    server.serve_forever()
-
-finally:
-    print("Error encountered, shutting down")
+myServer.server_close()
+print(time.asctime(), "Server Stops - %s:%s" % (hostName, hostPort))
