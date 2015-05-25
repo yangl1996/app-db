@@ -2,8 +2,8 @@ __author__ = 'yangl1996'
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 
-hostName = "localhost"
-hostPort = 9000
+hostName = "128.199.244.33"
+hostPort = 8080
 
 
 class MyServer(BaseHTTPRequestHandler):
