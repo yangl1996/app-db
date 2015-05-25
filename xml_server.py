@@ -46,7 +46,7 @@ class MyServer(BaseHTTPRequestHandler):
                 return_file += '</string>'
             return_file += '</resources>'
             self.send_response(200)
-            self.send_header("Content-type", "text/html")
+            self.send_header("Content-type", "text/xml")
             self.end_headers()
             self.wfile.write(bytes(return_file, "utf-8"))
         else:
