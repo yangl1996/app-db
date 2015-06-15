@@ -31,19 +31,17 @@ class MyServer(BaseHTTPRequestHandler):
 
         # database loaded as user_table
         # searching for URLs
-        if user_id in user_table:
-            URLs = user_table[user_id]['image']
-            return_file = '<resources><string name="url_number">'
-            return_file += str(len(URLs))
-            return_file += '</string>'
-            id_count = 1
-            for this_url in URLs:
-                return_file += '<string name="'
-                return_file += str(id_count)
-                return_file += '">'
-                return_file += str(this_url)
-                return_file += '</string>'
-                id_count += 1
+        if user_id == "get":
+            album = user_table['image']
+            return_file = '<resources>'
+            for instance in album:
+                return_file += """<photo>
+                <imgUrl>{imageURL}</imgUrl>
+                <audioUrl>{audioURL}</audioUrl>
+                <words>{text}</words>
+                <name>{usrid}</name>
+                </photo>""".format(imageURL=instance['url'], text=instance['text'], usrid=instance['name'],
+                                   audioURL=instance['audio'])
             return_file += '</resources>'
             self.send_response(200)
             self.send_header("Content-type", "text/xml")
