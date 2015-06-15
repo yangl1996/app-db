@@ -90,6 +90,8 @@ class MyServer(BaseHTTPRequestHandler):
             writer = open('database.json', 'w')
             writer.write(to_write)
             writer.close()
+        else:
+            print(post_body)
 
         print("========END POST=========")
 
