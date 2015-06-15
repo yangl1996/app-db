@@ -25,6 +25,7 @@ class MyServer(BaseHTTPRequestHandler):
             db = json.loads(database)
             database_file.close()
             if user_id not in db['user']:
+                db['user'][user_id] = {}
                 db['user'][user_id]["image_count"] = 0
                 db['user'][user_id]["voice_count"] = 0
                 db['user'][user_id]["image"] = []
