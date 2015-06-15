@@ -1,14 +1,11 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 import json
-import requests
 import os
 
 listenAddr = "128.199.82.190"
 listenPort = 9999
 db_file_path = "database.json"
-appid = ""
-secret = ""
 last_image_id = -1
 
 
@@ -45,7 +42,6 @@ class MyServer(BaseHTTPRequestHandler):
 
         elif data['MediaType'] == 'text':
             content = data['Content']
-            user_id = data['Usr_Id']
             if last_image_id != -1:
                 database_file = open(db_file_path, 'r')
                 database = database_file.read()
