@@ -22,7 +22,7 @@ class MyServer(BaseHTTPRequestHandler):
         try:
             database_file = open(db_file_path, 'r')
             database = database_file.read()
-            user_table = json.loads(database)['user']
+            user_table = json.loads(database)
             database_file.close()
         except:
             self.send_error(500, "Internal Error", "No database found on server")
