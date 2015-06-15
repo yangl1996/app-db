@@ -78,7 +78,7 @@ class MyServer(BaseHTTPRequestHandler):
 
             # form the URL
             payload = {'access_token': token, 'media_id': media_id}
-            q = requests.get("http://file.api.weixin.qq.com/cgi-bin/media/get", params=payload)
+            q = requests.get("https://api.weixin.qq.com/cgi-bin/media/get", params=payload)
             remote_url = q.url
 
             db['user'][user_id]['voice_count'] += 1
