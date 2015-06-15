@@ -9,7 +9,7 @@ listenPort = 9999
 db_file_path = "database.json"
 appid = ""
 secret = ""
-last_image_id = 1
+last_image_id = -1
 
 
 class MyServer(BaseHTTPRequestHandler):
@@ -43,8 +43,19 @@ class MyServer(BaseHTTPRequestHandler):
             writer.write(to_write)
             writer.close()
 
-        else:
-            print(post_body)
+        elif data['MediaType'] == 'text':
+            content = data['Content']
+            user_id = data['Usr_Id']
+            if last_image_id != -1:
+                database_file = open(db_file_path, 'r')
+                database = database_file.read()
+                db = json.loads(database)
+                database_file.close()
+                db['image'][last_image_id]['text'] = content
+                to_write = json.dumps(db)
+                writer = open('database.json', 'w')
+                writer.write(to_write)
+                writer.close()
 
         print("========END POST=========")
 
