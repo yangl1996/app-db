@@ -9,8 +9,6 @@ listenPort = 9999
 db_file_path = "database.json"
 appid = ""
 secret = ""
-lastquery = 0
-token = ""
 
 
 class MyServer(BaseHTTPRequestHandler):
@@ -66,15 +64,10 @@ class MyServer(BaseHTTPRequestHandler):
                 db['user'][user_id]["image"] = []
                 db['user'][user_id]["voice"] = []
 
-            # get the token
-            global lastquery
-            if time.time() - lastquery >= 7000:
-                payload = {'grant_type': 'client_credential', 'appid': appid, 'secret': secret}
-                r = requests.get("https://api.weixin.qq.com/cgi-bin/token", params=payload)
-                return_token = json.loads(r.text)
-                lastquery = time.time()
-                global token
-                token = return_token['access_token']
+            payload = {'grant_type': 'client_credential', 'appid': appid, 'secret': secret}
+            r = requests.get("https://api.weixin.qq.com/cgi-bin/token", params=payload)
+            return_token = json.loads(r.text)
+            token = return_token['access_token']
 
             # form the URL
             payload = {'access_token': token, 'media_id': media_id}
