@@ -33,7 +33,7 @@ class MyServer(BaseHTTPRequestHandler):
             local_filename = str(last_image_id) + ".jpg"
             local_fileURL = "http://" + listenAddr + ":8090" + "/FS/" + local_filename
             image_metadata = {'id': last_image_id, 'name': user_id, 'url': local_fileURL, 'text': "", 'audio': ""}
-            db['user'].append(image_metadata)
+            db['image'].append(image_metadata)
             command = """
             cd FS
             wget -O {} {}""".format(local_filename, image_link)
