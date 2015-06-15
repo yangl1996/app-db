@@ -4,7 +4,7 @@ import http.server
 import socketserver
 
 PORT = 80
-SERVER_ADDRESS = "128.199.244.33"
+SERVER_ADDRESS = "128.199.82.190"
 
 Handler = http.server.SimpleHTTPRequestHandler
 

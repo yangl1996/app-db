@@ -3,7 +3,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 import json
 
-hostName = "128.199.244.33"
+hostName = "128.199.82.190"
 hostPort = 8080
 db_file_path = "database.json"
 
