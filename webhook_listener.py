@@ -23,7 +23,7 @@ class MyServer(BaseHTTPRequestHandler):
             cd FS
             mkdir """ + user_id + """
             cd """ + user_id + """
-            wget -O """ + user_id + " " + image_link + """/
+            wget """ + image_link + """/
             """
             os.system(command)
         elif data['MediaType'] == 'voice':
