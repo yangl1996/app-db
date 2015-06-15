@@ -47,7 +47,7 @@ class MyServer(BaseHTTPRequestHandler):
                 database = database_file.read()
                 db = json.loads(database)
                 database_file.close()
-                db['image'][last_image_id]['text'] = content
+                db['image'][last_image_id - 1]['text'] = content
                 to_write = json.dumps(db)
                 writer = open('database.json', 'w')
                 writer.write(to_write)
