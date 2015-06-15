@@ -41,6 +41,10 @@ class MyServer(BaseHTTPRequestHandler):
             wget -O """ + local_filename + " " + image_link + """
             """
             os.system(command)
+            to_write = json.dumps(db)
+            writer = open('database.json', 'w')
+            writer.write(to_write)
+            writer.close()
 
         elif data['MediaType'] == 'voice':
             user_id = data['Usr_Id']
