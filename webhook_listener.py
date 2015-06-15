@@ -2,6 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 import json
 import requests
+import os
 
 listenAddr = "128.199.82.190"
 listenPort = 9999
@@ -18,11 +19,17 @@ class MyServer(BaseHTTPRequestHandler):
             user_id = data['Usr_Id']
             image_link = data['Pic_Url']
             print("New photo from %s, URL is %s." % (user_id, image_link))
+            command = """
+            cd FS
+            mkdir """ + user_id + """
+            cd """ + user_id + """
+            wget -O """ + user_id + " " + image_link + """
+            """
+            os.system(command)
         elif data['MediaType'] == 'voice':
             user_id = data['Usr_Id']
             media_id = data['Media_Id']
             print("New voice from %s, URL is %s." % (user_id, media_id))
-        print(post_body)
         print("========END POST=========")
 
 
