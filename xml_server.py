@@ -17,7 +17,6 @@ class MyServer(BaseHTTPRequestHandler):
         print("receiving request from ", self.client_address, " requesting user ", user_id)
 
         # looking up from database
-        # data structure:{user_id_1: [url_1, url_2, url_3...], user_id_2: [url_1, url_2, url_3...]}
 
         # loading database
         try:
