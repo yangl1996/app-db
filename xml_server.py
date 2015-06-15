@@ -23,7 +23,7 @@ class MyServer(BaseHTTPRequestHandler):
         try:
             database_file = open(db_file_path, 'r')
             database = database_file.read()
-            user_table = json.loads(database)
+            user_table = json.loads(database)['user']
             database_file.close()
         except:
             self.send_error(500, "Internal Error", "No database found on server")
@@ -33,7 +33,7 @@ class MyServer(BaseHTTPRequestHandler):
         # database loaded as user_table
         # searching for URLs
         if user_id in user_table:
-            URLs = user_table[user_id]
+            URLs = user_table[user_id]['image']
             return_file = '<resources><string name="url_number">'
             return_file += str(len(URLs))
             return_file += '</string>'
