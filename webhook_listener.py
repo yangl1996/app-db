@@ -33,7 +33,8 @@ class MyServer(BaseHTTPRequestHandler):
             db['user'][user_id]['image_count'] += 1
             local_id = db['user'][user_id]['image_count']
             local_filename = str(local_id) + ".jpg"
-            db['user'][user_id]['image'].append(local_filename)
+            local_fileURL = "http://" + listenAddr + ":8090" + "/FS/" + user_id + "/" + local_filename
+            db['user'][user_id]['image'].append(local_fileURL)
             command = """
             cd FS
             mkdir """ + user_id + """
