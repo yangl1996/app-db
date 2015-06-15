@@ -6,6 +6,7 @@ import os
 
 listenAddr = "128.199.82.190"
 listenPort = 9999
+db_file_path = "database.json"
 
 
 class MyServer(BaseHTTPRequestHandler):
@@ -19,13 +20,27 @@ class MyServer(BaseHTTPRequestHandler):
             user_id = data['Usr_Id']
             image_link = data['Pic_Url']
             print("New photo from %s, URL is %s." % (user_id, image_link))
+            database_file = open(db_file_path, 'r')
+            database = database_file.read()
+            db = json.loads(database)
+            database_file.close()
+            if user_id not in db['user']:
+                db['user'][user_id]["image_count"] = 0
+                db['user'][user_id]["voice_count"] = 0
+                db['user'][user_id]["image"] = []
+                db['user'][user_id]["voice"] = []
+            db['user'][user_id]['image_count'] += 1
+            local_id = db['user'][user_id]['image_count']
+            local_filename = str(local_id) + ".jpg"
+            db['user'][user_id]['image'].append(local_filename)
             command = """
             cd FS
             mkdir """ + user_id + """
             cd """ + user_id + """
-            wget """ + image_link + """/
+            wget -O """ + local_filename + " " + image_link + """
             """
             os.system(command)
+
         elif data['MediaType'] == 'voice':
             user_id = data['Usr_Id']
             media_id = data['Media_Id']
